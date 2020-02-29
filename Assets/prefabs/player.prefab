@@ -123,10 +123,10 @@ MonoBehaviour:
   jumpVelocity: 6
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
-  oxygenlevel: 1
-  airmovemult: 4
-  bckg: {fileID: 0}
-  Hook: {fileID: 1614666346911616, guid: 67eac19aa4730d04a8ad7c8f00e883e6, type: 2}
+  globalBrightness: 1
+  airMoveMult: 15
+  bckg: {fileID: 212260609874399124, guid: cbb6effe46322ed4ca252757e1d3599c, type: 2}
+  grappleObj: {fileID: 1614666346911616, guid: 67eac19aa4730d04a8ad7c8f00e883e6, type: 2}
   facing: 0
   anima: {fileID: 0}
 --- !u!212 &212732784459104798
