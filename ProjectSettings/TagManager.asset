@@ -5,10 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - OxygenPickup
-  - Hook
   - moveable
   - Platform
-  - hangpoint
+  - environmentGrapple
+  - grapple
   layers:
   - Default
   - TransparentFX

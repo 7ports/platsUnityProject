@@ -8,7 +8,7 @@ public class playerMovement : MonoBehaviour {
 	//layer for all ground objects for jumping
 	public LayerMask groundLayer;
 	//player's box collider
-	BoxCollider2D playercol;
+	BoxCollider2D playerCollider;
 	//bool for checking if the player inputed jump on a given frame
 	bool jump;
 	//float for storing horizontal axis value
@@ -20,9 +20,9 @@ public class playerMovement : MonoBehaviour {
 	//how much shorter the short jump will be than the tall jump
 	public float lowJumpMultiplier = 2f;
 	//reference for storing the sprite of the player
-	SpriteRenderer sprite;
+	SpriteRenderer playerSprite;
 	//the value for storing the oyxgen level, default set to full or max
-	public float oxygenlevel = 1.0f;
+	public float globalBrightness = 1.0f;
 	//the value that the player's velocity will be assignned to when moving on the ground
 	Vector2 movec = new Vector2(5f, 0f);
 	//the factor by which the player's mobility (amount that they can influence their speed) will be reduced in the air
@@ -49,8 +49,9 @@ public class playerMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
-		sprite = GetComponent<SpriteRenderer>();
-		playercol = GetComponent<BoxCollider2D>();
+		//fetch player sprite from unity object
+		playerSprite = GetComponent<SpriteRenderer>();
+		playerCollider = GetComponent<BoxCollider2D>();
 
 	}
 	
@@ -78,7 +79,7 @@ public class playerMovement : MonoBehaviour {
 
 				//if shooting check to see when you can give player control back
 		if(isFish){
-			gos = GameObject.FindGameObjectsWithTag("Hook");
+			gos = GameObject.FindGameObjectsWithTag("grapple");
 			if (gos.Length == 0)
 				isFish = false;
 		}
@@ -95,25 +96,17 @@ public class playerMovement : MonoBehaviour {
 
 
 		//decrement oxygen
-		if (oxygenlevel > 0.0f){
-			oxygenlevel -= Time.deltaTime/40;
+		if (globalBrightness > 0.0f){
+			globalBrightness -= Time.deltaTime/40;
 
 		}
 
 
 		//change sprite color according to oxygen
-		bckg.color = Color.Lerp(Color.red, Color.green, oxygenlevel);
-		if(oxygenlevel < 0){
+		bckg.color = Color.Lerp(Color.red, Color.green, globalBrightness);
+		if(globalBrightness < 0){
 			Destroy(this.gameObject);
 		}
-		
-
-
-
-
-
-
-		Debug.Log(isFish);
 	}
 
 
@@ -123,17 +116,12 @@ public class playerMovement : MonoBehaviour {
 	//check for pickups and other trigger collisions  
 	void OnTriggerEnter2D(Collider2D target){
 		if (target.CompareTag("OxygenPickup")){
-			oxygenlevel = 1f;
+			globalBrightness = 1f;
 		}
 	}
 
 	void FixedUpdate(){
 		
-
-		
-
-		
-
 		//move left and right on the ground
 		if(IsGrounded()){
 			rb2d.velocity = movec * m;
